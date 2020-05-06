@@ -12,18 +12,18 @@ def convert(i):
         return -1
 
 
-with open('hw8_ratings_fa18.txt') as f:
+with open('ratings.txt') as f:
     ratings = np.array([[convert(i) for i in line.strip().split()] for line in f])
 
-with open('hw8_movieTitles_fa18.txt') as f:
+with open('movieTitles.txt') as f:
     titles = np.array([line.strip() for line in f])
 
 order = np.argsort(np.ma.array(ratings, mask=ratings == -1).mean(axis=0))
 
-with open('hw8_probZ_init.txt') as f:
+with open('probZ_init.txt') as f:
     pz = np.array([float(line.strip()) for line in f])
 
-with open('hw8_probRgivenZ_init.txt') as f:
+with open('probRgivenZ_init.txt') as f:
     pRofZ = np.array([[float(num) for num in line.strip().split()] for line in f])
 
 k = len(pz)
@@ -71,8 +71,8 @@ while True:
         break
 
 table = pd.DataFrame(L, index=iterations, columns=['log-likelihood'])
-with open('hw8_studentPIDs_fa18.txt') as f:
-    row = [line.strip() for line in f].index('A53284313')
+with open('studentPIDs.txt') as f:
+    row = [line.strip() for line in f].index('none')
 
 ratings = ratings[row]
 predict = np.matmul(postProb[:, row], pRofZ.T) * ratings.mask
